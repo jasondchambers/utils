@@ -1,0 +1,43 @@
+#!/usr/bin/env sh
+
+inside_tmux_session() {
+  current_session=$(tmux display-message -p '#S')
+  if [ "$selected_repo" = "$current_session" ]; then
+    echo "You are already where you need to be"
+  else
+    tmux ls | cut -d':' -f1 | grep $selected_repo
+    if [ "$?" -eq 0 ]; then
+      echo "tmux session ${selected_repo} already exists - switching"
+    else
+      echo "tmux session ${selected_repo} does not exist - creating"
+      tmux new-session -d -s ${selected_repo}
+    fi
+    tmux switch-client -t ${selected_repo}
+  fi
+}
+
+outside_tmux_session() {
+  tmux ls | cut -d':' -f1 | grep $selected_repo
+  if [ "$?" -eq 0 ]; then
+    echo "tmux session ${selected_repo} already exists - attaching"
+    tmux a -t ${selected_repo}
+  else
+    echo "tmux session ${selected_repo} does not exist - creating"
+    tmux new-session -s ${selected_repo}
+    tmux switch-client -t ${selected_repo}
+  fi
+}
+
+main() {
+  selected_repo=$(ls -1 ~/repos | fzf)
+  echo $selected_repo
+  if [ -n "$TMUX" ]; then
+    echo "Running inside a tmux session"
+    inside_tmux_session
+  else
+    echo "Not in a tmux session"
+    outside_tmux_session
+  fi
+}
+
+main

@@ -2,6 +2,8 @@
 
 Handy little scripts
 
+![Demo][demo]
+
 | Utility | Description |
 |---------|-------------|
 | flip| Flip working to another repo |
@@ -10,3 +12,5 @@ Handy little scripts
 | tk| fzf powered tmux kill session|
 | tls| tmux ls shorthand |
 | tn| tmux new shorthand | 
+
+[demo]: utils-demo.webp

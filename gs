@@ -2,9 +2,14 @@
 
 cd ~/repos
 for r in $(ls -1 ~/repos); do
-  echo $r
   cd $r
-  git status
+  git fetch >/dev/null 2>&1
+  s=$(git status)
+  if [[ "$s" == *"Your branch is behind"* ]]; then
+    printf "${r} is behind\n"
+  elif [[ "$s" == *"Changes not staged"* ]]; then
+    printf "${r} is ahead\n"
+  fi
   cd ..
-  echo "=============================="
 done
+

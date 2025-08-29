@@ -1,7 +1,7 @@
 #!/usr/bin/env sh
 
 session_exists() {
-  tmux has-session -t "$1" 2>/dev/null
+  tmux has-session -t="$1" 2>/dev/null
 }
 
 main() {
@@ -36,4 +36,3 @@ main() {
 }
 
 main
-

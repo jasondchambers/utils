@@ -1,6 +1,8 @@
 ## utils
 
-Handy little scripts
+Handy little scripts. The version of bash on macOS is usually quite old, so be sure to install the latest via brew as follows:
+
+    brew install bash
 
 ![Demo][demo]
 

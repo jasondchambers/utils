@@ -7,7 +7,8 @@ Handy little scripts
 | Utility | Description |
 |---------|-------------|
 | flip| Flip working to another repo |
-| gs| Run git status across all repos |
+| gf| Run git fetch across all cloned repos |
+| gs| Run git status across all cloned repos |
 | ta| fzf powered tmux attach |
 | tk| fzf powered tmux kill session|
 | tls| tmux ls shorthand |

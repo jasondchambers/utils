@@ -10,6 +10,6 @@ selected_machine=$(printf "%s\n" "${!login_commands[@]}" | fzf)
 
 if [[ -n "$selected_machine" ]]; then
   command_to_run="${login_commands[$selected_machine]}"
+  echo ${command_to_run}
   eval "${command_to_run}"
 fi
-

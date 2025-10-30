@@ -9,6 +9,7 @@ Handy little scripts. The version of bash on macOS is usually quite old, so be s
 | Utility | Description |
 |---------|-------------|
 | flip| Flip working to another repo |
+| open-gh| Open Github |
 | gf| Run git fetch across all cloned repos |
 | gs| Run git status across all cloned repos |
 | s| fzf powered ssh shorthand |

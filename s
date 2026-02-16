@@ -6,6 +6,7 @@ login_commands["jasonsmbp"]="ssh jasonchambers@10.27.27.6"
 login_commands["meerkat"]="ssh jasonchambers@10.27.27.8"
 login_commands["thelio"]="ssh jasonchambers@10.27.27.9"
 login_commands["winebuddy-slack-app"]="ssh root@10.27.27.12"
+login_commands["winebuddy-sync-with-cellartracker"]="ssh root@10.27.27.13"
 
 selected_machine=$(printf "%s\n" "${!login_commands[@]}" | fzf)
 

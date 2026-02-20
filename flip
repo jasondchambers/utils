@@ -1,36 +1,52 @@
-#!/usr/bin/env sh
+#!/usr/bin/env bash
+
+get_session_name() {
+  local selection
+  selection=$({ echo "+ Create new from a repo or something else"; tmux ls | awk -F: '{print $1}'; } | fzf)
+
+  if [[ "$selection" == "+ Create new from a repo or something else" ]]; then
+    selection=$({ echo "+ Something else"; ls -1 ~/repos; } | fzf)
+    if [[ "$selection" == "+ Something else" ]]; then
+      read -rp "New session name: " selection
+    fi
+  fi
+
+  SESSION_NAME="$selection"
+}
 
 session_exists() {
   tmux has-session -t="$1" 2>/dev/null
 }
 
 main() {
-  selected_repo=$(ls -1 ~/repos | fzf)
+  get_session_name
 
-  if [ -z "$selected_repo" ]; then
+  if [[ -z "$SESSION_NAME" ]]; then
     echo "No repository selected."
     exit 0
   fi
 
-  echo "Selected repository: $selected_repo"
+  echo "Selected repository: $SESSION_NAME"
 
-  if session_exists "$selected_repo"; then
-    echo "Session '$selected_repo' already exists."
-    if [ -n "$TMUX" ]; then
+  if session_exists "$SESSION_NAME"; then
+    echo "Session '$SESSION_NAME' already exists."
+    if [[ -n "$TMUX" ]]; then
       echo "Switching to session."
-      tmux switch-client -t "$selected_repo"
+      tmux switch-client -t "$SESSION_NAME"
     else
       echo "Attaching to session."
-      tmux attach-session -t "$selected_repo"
+      tmux attach-session -t "$SESSION_NAME"
     fi
   else
-    echo "Creating new session: $selected_repo"
-    cd ~/repos/${selected_repo}
-    if [ -n "$TMUX" ]; then
-      tmux new-session -d -s "$selected_repo"
-      tmux switch-client -t "$selected_repo"
+    echo "Creating new session: $SESSION_NAME"
+    if [[ -d ~/repos/${SESSION_NAME} ]]; then
+      cd ~/repos/"${SESSION_NAME}" || exit
+    fi
+    if [[ -n "$TMUX" ]]; then
+      tmux new-session -d -s "$SESSION_NAME"
+      tmux switch-client -t "$SESSION_NAME"
     else
-      tmux new-session -s "$selected_repo"
+      tmux new-session -s "$SESSION_NAME"
     fi
   fi
 }

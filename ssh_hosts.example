@@ -1,0 +1,9 @@
+# SSH host shortcuts for use with the `s` script
+# Copy to ~/.ssh_hosts and fill in your own hosts/IPs.
+# Format: display_name|ssh_command
+
+desktop|ssh user@192.168.1.10
+laptop|ssh user@192.168.1.11
+homeserver|ssh user@192.168.1.20
+router|ssh admin@192.168.1.1
+managed-switch|ssh -oPreferredAuthentications=password -oHostKeyAlgorithms=+ssh-rsa -oCiphers=aes128-cbc -oMACs=hmac-sha1 admin@192.168.1.2

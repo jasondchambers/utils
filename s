@@ -1,17 +1,24 @@
 #!/usr/bin/env bash
 
-declare -A login_commands
-login_commands["jasonsimac"]="ssh jasonchambers@10.27.27.5"
-login_commands["jasonsmbp"]="ssh jasonchambers@10.27.27.6"
-login_commands["meerkat"]="ssh jasonchambers@10.27.27.8"
-login_commands["thelio"]="ssh jasonchambers@10.27.27.9"
-login_commands["winebuddy-slack-app"]="ssh root@10.27.27.12"
-login_commands["winebuddy-sync-with-cellartracker"]="ssh root@10.27.27.13"
+config="${SSH_HOSTS_FILE:-$HOME/.ssh_hosts}"
 
-selected_machine=$(printf "%s\n" "${!login_commands[@]}" | fzf)
+if [[ ! -f "$config" ]]; then
+  echo "Error: config file not found at $config" >&2
+  echo "Copy ssh_hosts.example to ~/.ssh_hosts and fill in your hosts." >&2
+  exit 1
+fi
+
+declare -A login_commands
+
+while IFS='|' read -r name cmd; do
+  [[ "$name" =~ ^#|^[[:space:]]*$ ]] && continue
+  login_commands["$name"]="$cmd"
+done < "$config"
+
+selected_machine=$(printf "%s\n" "${!login_commands[@]}" | sort | fzf)
 
 if [[ -n "$selected_machine" ]]; then
   command_to_run="${login_commands[$selected_machine]}"
-  echo ${command_to_run}
+  echo "${command_to_run}"
   eval "${command_to_run}"
 fi

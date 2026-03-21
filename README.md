@@ -13,6 +13,7 @@ Handy little scripts. The version of bash on macOS is usually quite old, so be s
 | gf| Run git fetch across all cloned repos |
 | gs| Run git status across all cloned repos |
 | s| fzf powered ssh shorthand - Needs configuration, see below |
+| sf| fzf powered sftp shorthand - Uses same configuration as s, see below |
 | ta| fzf powered tmux attach |
 | tk| fzf powered tmux kill session|
 | tls| tmux ls shorthand |

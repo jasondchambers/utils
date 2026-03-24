@@ -4,28 +4,31 @@ Handy little scripts. The version of bash on macOS is usually quite old, so be s
 
     brew install bash
 
+Some of these scripts are designed to be run stand-alone. Others are in support of custom [television](https://alexpasmantier.github.io/television/) [channels](https://github.com/jasondchambers/dot-files/tree/main/television/cable)
+
 ![Demo][demo]
 
 | Utility | Description |
 |---------|-------------|
-| flip| Flip working to another repo |
-| open-gh| Open Github |
-| gf| Run git fetch across all cloned repos |
-| gs| Run git status across all cloned repos |
-| s| fzf powered ssh shorthand - Needs configuration, see below |
-| sf| fzf powered sftp shorthand - Uses same configuration as s, see below |
-| ta| fzf powered tmux attach |
-| tk| fzf powered tmux kill session|
-| tls| tmux ls shorthand |
-| tn| tmux new shorthand | 
+| flip | Yet another tmux session manager - can be used inside or outside tmux |
+| open-gh | Open Github - used within tmux |
+| gf | Run git fetch across all cloned repos |
+| gs | Run git status across all cloned repos |
+| ta | fzf powered tmux attach |
+| tk | fzf powered tmux kill session |
+| tls | tmux ls shorthand |
+| tn | tmux new shorthand |
+| ssh-get-command | Used by "tv ssh" channel |
+| sftp-get-command | Used by "tv sftp" channel |
+| dbproxy-get-command | Used by "tv dbproxy" channel |
 
 [demo]: utils-demo.webp
 
 ## Configuration
 
-### s
+### ssh-get-command / sftp-get-command (in support of "tv ssh|sftp" channels)
 
-`s` loads SSH hosts from `~/.ssh_hosts`. Copy the provided example and fill in your own hosts:
+These utilities look up hosts from `~/.ssh_hosts`. Copy the provided example and fill in your own hosts:
 
 ```bash
 cp ssh_hosts.example ~/.ssh_hosts
@@ -41,4 +44,16 @@ my-server|ssh user@192.168.1.10
 office-switch|ssh -oPreferredAuthentications=password -oHostKeyAlgorithms=+ssh-rsa admin@192.168.1.2
 ```
 
-You can override the config file location with the `SSH_HOSTS_FILE` environment variable.
+### dbproxy-get-command (in support of "tv dbroxy" channel)
+
+Looks up database proxy commands from `~/.databases`. Copy the provided example and fill in your own databases:
+
+```bash
+cp databases.examples ~/.databases
+```
+
+Each line has the format `display_name|proxy_command`:
+
+```
+Dev: mydb-dev|tsh proxy db --tunnel --port 60005 --db-name mydb --db-user admin@mydb-dev.iam mydb-dev
+```

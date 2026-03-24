@@ -1,0 +1,2 @@
+Demo: somedb-demo-us1 (read replica)|tsh proxy db --tunnel --port 60003 --db-name webapi --db-user teleport-admin@somedb-demo-us1.iam somedb-demo-us1-customer-rr
+Dev: somedb-dev-us|tsh proxy db --tunnel --port 60005 --db-name webapi --db-user teleport-admin@somedb-dev-us.iam somedb-dev-us-customer

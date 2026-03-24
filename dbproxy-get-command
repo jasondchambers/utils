@@ -1,0 +1,5 @@
+#!/usr/bin/env bash
+
+line=$(grep -F "$1" ~/.databases)
+command=$(echo "$line" | awk -F'|' '{print $2}')
+echo "$command"

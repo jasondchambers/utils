@@ -21,6 +21,10 @@ Some of these scripts are designed to be run stand-alone. Others are in support 
 | ssh-get-command | Used by "tv ssh" channel |
 | sftp-get-command | Used by "tv sftp" channel |
 | dbproxy-get-command | Used by "tv dbproxy" channel |
+| 1password-get-envid | Use by op-env shell function |
+| 1password-get-envnames | Use by op-env shell function |
+| 1password-get-serviceaccount | Use by op-env shell function |
+
 
 [demo]: utils-demo.webp
 

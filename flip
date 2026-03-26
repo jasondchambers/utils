@@ -1,54 +1,53 @@
 #!/usr/bin/env bash
 
-get_session_name() {
+get_workspace_name() {
   local selection
-  selection=$({ echo "+ Create new from a repo or something else"; tmux ls | awk -F: '{print $1}'; } | fzf)
+  selection=$({
+    echo "+ Create new from a repo or something else"
+    wezterm cli list --format json | jq -r '.[].workspace' | uniq
+  } | fzf)
 
   if [[ "$selection" == "+ Create new from a repo or something else" ]]; then
-    selection=$({ echo "+ Something else"; ls -1 ~/repos; } | fzf)
+    selection=$({
+      echo "+ Something else"
+      ls -1 ~/repos
+    } | fzf)
     if [[ "$selection" == "+ Something else" ]]; then
-      read -rp "New session name: " selection
+      read -rp "New workspace name: " selection
     fi
   fi
 
-  SESSION_NAME="$selection"
+  WORKSPACE_NAME="$selection"
 }
 
-session_exists() {
-  tmux has-session -t="$1" 2>/dev/null
+workspace_exists() {
+  wezterm cli list --format json | jq -r '.[].workspace' | uniq | grep "${1}" >/dev/null
+}
+
+switch_to_workspace() {
+  printf "\033]1337;SetUserVar=%s=%s\007" SWITCH_WORKSPACE "$(echo -n "$1" | base64)"
 }
 
 main() {
-  get_session_name
+  get_workspace_name
 
-  if [[ -z "$SESSION_NAME" ]]; then
+  if [[ -z "$WORKSPACE_NAME" ]]; then
     echo "No repository selected."
     exit 0
   fi
 
-  echo "Selected repository: $SESSION_NAME"
-
-  if session_exists "$SESSION_NAME"; then
-    echo "Session '$SESSION_NAME' already exists."
-    if [[ -n "$TMUX" ]]; then
-      echo "Switching to session."
-      tmux switch-client -t "$SESSION_NAME"
-    else
-      echo "Attaching to session."
-      tmux attach-session -t "$SESSION_NAME"
-    fi
+  if workspace_exists "$WORKSPACE_NAME"; then
+    switch_to_workspace "$WORKSPACE_NAME"
   else
-    echo "Creating new session: $SESSION_NAME"
-    if [[ -d ~/repos/${SESSION_NAME} ]]; then
-      cd ~/repos/"${SESSION_NAME}" || exit
-    fi
-    if [[ -n "$TMUX" ]]; then
-      tmux new-session -d -s "$SESSION_NAME"
-      tmux switch-client -t "$SESSION_NAME"
+    # Create new workspace
+    if [[ -d ~/repos/${WORKSPACE_NAME} ]]; then
+      wezterm cli spawn --workspace "$WORKSPACE_NAME" --new-window --cwd ~/repos/${WORKSPACE_NAME}
     else
-      tmux new-session -s "$SESSION_NAME"
+      wezterm cli spawn --workspace "$WORKSPACE_NAME" --new-window
     fi
+    switch_to_workspace "$WORKSPACE_NAME"
   fi
+
 }
 
 main

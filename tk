@@ -1,3 +1,9 @@
 #!/usr/bin/env sh
 
-tmux kill-session -t $(tmux ls | fzf | cut -d':' -f1)
+#tmux kill-session -t $(tmux ls | fzf | cut -d':' -f1)
+
+selection=$({
+  wezterm cli list --format json | jq -r '.[].workspace' | uniq
+} | fzf)
+
+wezterm cli list --format json | jq -r --arg ws "$selection" '.[] | select(.workspace == $ws) | .pane_id' | xargs -I{} wezterm cli kill-pane --pane-id {}

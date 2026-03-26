@@ -1,3 +1,0 @@
-#!/usr/bin/env sh
-
-tmux a -t $(tmux ls | fzf | cut -d':' -f1)

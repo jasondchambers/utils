@@ -1,19 +1,18 @@
 #!/usr/bin/env bash
 
 launch_browser_cmd="xdg-open"
-if [ "$(uname)" = "Darwin" ]; then 
-  echo "Running on macOS"
+if [ "$(uname)" = "Darwin" ]; then
   launch_browser_cmd="open"
 fi
 
-cd $(tmux run "echo #{pane_start_path}")
+#cd $(wezterm cli list --format json | jq -r --arg pane "$WEZTERM_PANE" '.[] | select(.pane_id == ($pane | tonumber)) | .cwd')
 url=$(git remote get-url origin)
 
 if [[ $url == *github.com* ]]; then
   if [[ $url == git@* ]]; then # git@github.com:jasondchambers/utils.git
-    url="${url#git@}"         # github.com:jasondchambers/utils.git
-    url="${url/:/\/}"         # github.com/jasondchambers/utils.git
-    url="https://$url"        # https://github.com/jasondchambers/utils.git
+    url="${url#git@}"          # github.com:jasondchambers/utils.git
+    url="${url/:/\/}"          # github.com/jasondchambers/utils.git
+    url="https://$url"         # https://github.com/jasondchambers/utils.git
     echo $url
   fi
   $launch_browser_cmd "$url"

@@ -10,14 +10,12 @@ Some of these scripts are designed to be run stand-alone. Others are in support 
 
 | Utility | Description |
 |---------|-------------|
-| flip | Yet another tmux session manager - can be used inside or outside tmux |
-| open-gh | Open Github - used within tmux |
+| flip | fzf powered Wezterm workspace switcher - create or switch workspaces |
+| open-gh | Open GitHub for the current repo in a browser |
 | gf | Run git fetch across all cloned repos |
 | gs | Run git status across all cloned repos |
-| ta | fzf powered tmux attach |
-| tk | fzf powered tmux kill session |
-| tls | tmux ls shorthand |
-| tn | tmux new shorthand |
+| tk | fzf powered Wezterm workspace kill |
+| tls | List Wezterm workspaces |
 | ssh-get-command | Used by "tv ssh" channel |
 | sftp-get-command | Used by "tv sftp" channel |
 | dbproxy-get-command | Used by "tv dbproxy" channel |

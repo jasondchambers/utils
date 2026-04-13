@@ -22,6 +22,7 @@ Some of these scripts are designed to be run stand-alone. Others are in support 
 | 1password-get-envid | Use by op-env shell function |
 | 1password-get-envnames | Use by op-env shell function |
 | 1password-get-serviceaccount | Use by op-env shell function |
+| nvimfzf | fzf-powered nvim launcher |
 
 
 [demo]: utils-demo.webp

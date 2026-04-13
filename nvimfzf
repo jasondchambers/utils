@@ -1,0 +1,27 @@
+#!/usr/bin/env bash
+
+get_filename() {
+  local selection
+  selection=$({
+    echo "+ Just launch nvim"
+    echo "+ fzf"
+  } | fzf)
+
+  if [[ "$selection" == "+ fzf" ]]; then
+    FILENAME=$(fzf)
+  fi
+}
+
+main() {
+  get_filename
+
+  if [[ -z "$FILENAME" ]]; then
+    echo "No filename selected."
+    nvim
+  else
+    echo "Launching nvim ${FILENAME}"
+    nvim "$FILENAME"
+  fi
+}
+
+main

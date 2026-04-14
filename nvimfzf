@@ -16,17 +16,17 @@ main() {
   if [ "$#" -ne 0 ]; then
     # The user has explicitly provided the filename(s) so just
     # pass through
-    nvim "$@"
+    exec nvim "$@"
   else
     # Nothing provieded by the user
     get_filename
 
     if [[ -z "$FILENAME" ]]; then
       echo "No filename selected."
-      nvim
+      exec nvim
     else
       echo "Launching nvim ${FILENAME}"
-      nvim "$FILENAME"
+      exec nvim "$FILENAME"
     fi
   fi
 }
